@@ -8,6 +8,9 @@ i am a cheeseburger
 More modifications by Michael Ho
 
 Yet another mod by Mike
+
+"This is a string"
+
 =======
 Alci was here
 Modification is here
