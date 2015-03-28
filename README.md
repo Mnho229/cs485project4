@@ -9,7 +9,9 @@ More modifications by Michael Ho
 
 Yet another mod by Mike
 
-"This is a string"
+"This is a string" -with more stuff added in
+
+Solo do lo Mobile so local
 
 =======
 Alci was here
