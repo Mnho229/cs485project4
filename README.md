@@ -21,4 +21,5 @@ Struct for scanner to parser
 // Alci : What type should the token variable be? Does it depend on the certain things we are scanning for?
 =======
 Alci : Okay I'm gonna remove the extra text in here
+// Alci: will that still work if I am using sublime text or my repository?
 >>>>>>> 72f6bffe86f2e69cf49267b662fe9c51392ff8bd
