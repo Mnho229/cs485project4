@@ -15,9 +15,7 @@ Struct for scanner to parser
 
 "This is a string" -with more stuff added in
 
-Solo do lo Mobile so local
-Hey are we gonna start a new repository for planning of just use this one?
-
+// Alci : What type should the token variable be? Does it depend on the certain things we are scanning for?
 =======
 Alci : Okay I'm gonna remove the extra text in here
 >>>>>>> 72f6bffe86f2e69cf49267b662fe9c51392ff8bd
