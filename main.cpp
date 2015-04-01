@@ -1,28 +1,30 @@
 #include <iostream>
 #include <string>
 #include <map>
-#include "helperfunctions.cpp"
+#include <vector>
+#include "helperfunctions.h"
 
 using namespace std;
 
+void parser(string inputLine);
+
 int main() {
 	string input;
-
+	
+	parser("My turban is dirty.");
 
 }
 
-void parser(string inputline) {
+void parser(string inputLine) {
 	vector<token> tokenList;
 
 	while(inputLine != "") {
-		int spacemarker = inputline.find(" \t");
-		string sender = inputline.substr(0, spacemarker);
-		token reply = scanner(sender);
+		token reply = scanner(inputLine);
 
-		tokenList.push_back();
+		tokenList.push_back(reply);
 
-		inputLine.erase(0, spacemarker);
 	}
 
+	cout << endl << tokenList[0].type << endl << tokenList[0].content << endl;
 	//syntax
 }
