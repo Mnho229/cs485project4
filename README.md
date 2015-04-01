@@ -12,6 +12,7 @@ Going to go ahead and make a launch pad for us.
 		git config --global push.default simple
 
 Michael: Explain your question.
+// Alci: Okay. I'm using sublime text to write my changes for the file. Is there a way for me to set my push so I don't overwrite on our work?
 PLANNING:
 
 User Input Loop
