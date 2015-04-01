@@ -9,9 +9,13 @@ using namespace std;
 void parser(string inputLine);
 
 int main() {
-	string input = "<bg>";
-	
-	parser(input);
+	string input;
+	while(input != "bye"){
+		cout << "sish$ <";
+		getline(cin,input);
+		parser(input);
+	}
+
 
 }
 
