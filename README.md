@@ -6,10 +6,9 @@ Getting no signal here so communicate through here.  Our repo should be fine.  N
 jesus these random styling for text.
 PLANNING:
 
-<<<<<<< HEAD
 User Input Loop
 Struct for scanner to parser
-=======
+
 "This is a string" -with more stuff added in
 
 Solo do lo Mobile so local
