@@ -1,21 +1,10 @@
 # cs485project4
 CS 485 Project 4
 Michael Ho / Alcy Holmes
-<<<<<<< HEAD
 
-Modification is here
-i am a cheeseburger
-More modifications by Michael Ho
+Getting no signal here so communicate through here.  Our repo should be fine.  No need to start another one.
 
-Yet another mod by Mike
+PLANNING:
 
-"This is a string" -with more stuff added in
-
-Solo do lo Mobile so local
-
-=======
-Alci was here
-Modification is here
-The cake is a lie
-and so am I
-bars.......
+User Input Loop
+Struct for scanner to parser
