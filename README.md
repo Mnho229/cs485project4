@@ -5,6 +5,8 @@ Michael Ho / Alcy Holmes
 Getting no signal here so communicate through here.  Our repo should be fine.  No need to start another one.
 jesus these random styling for text.
 
+Going to go ahead and make a launch pad for us.
+
 PLANNING:
 
 User Input Loop
