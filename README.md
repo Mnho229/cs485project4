@@ -6,5 +6,19 @@ Getting no signal here so communicate through here.  Our repo should be fine.  N
 
 PLANNING:
 
+<<<<<<< HEAD
 User Input Loop
 Struct for scanner to parser
+=======
+"This is a string" -with more stuff added in
+
+Solo do lo Mobile so local
+Hey are we gonna start a new repository for planning of just use this one?
+
+=======
+Alci was here
+Modification is here
+The cake is a lie
+and so am I
+bars.......
+>>>>>>> 72f6bffe86f2e69cf49267b662fe9c51392ff8bd
