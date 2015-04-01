@@ -8,6 +8,8 @@ jesus these random styling for text.
 Going to go ahead and make a launch pad for us.
 // Alci: alrighty
 // Mike: The type that the parser is going to read is going to be a struct with two strings inside.  That way, the parser will be able to tell both type and content.
+// Mike: Also, please set your push thing to 'simple' so we don't overwrite each others work by accident.  here's console command
+		git config --global push.default simple
 PLANNING:
 
 User Input Loop
