@@ -4,9 +4,11 @@ Michael Ho / Alcy Holmes
 
 Getting no signal here so communicate through here.  Our repo should be fine.  No need to start another one.
 jesus these random styling for text.
+
 PLANNING:
 
 User Input Loop
+
 Struct for scanner to parser
 
 "This is a string" -with more stuff added in
