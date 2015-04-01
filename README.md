@@ -3,7 +3,7 @@ CS 485 Project 4
 Michael Ho / Alcy Holmes
 
 Getting no signal here so communicate through here.  Our repo should be fine.  No need to start another one.
-
+jesus these random styling for text.
 PLANNING:
 
 <<<<<<< HEAD
