@@ -7,6 +7,7 @@ jesus these random styling for text.
 
 Going to go ahead and make a launch pad for us.
 // Alci: alrighty
+// Mike: The type that the parser is going to read is going to be a struct with two strings inside.  That way, the parser will be able to tell both type and content.
 PLANNING:
 
 User Input Loop
