@@ -35,6 +35,9 @@ static token scanner(string & scanned){
 		}
 	}
 
-	//
+	//variable
+	if (scanned.find("$") == 0 || spaceMarker + 1 == scanned.find("=") ) {
+
+	}
 }
 
