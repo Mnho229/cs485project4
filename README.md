@@ -18,6 +18,13 @@ Michael: Explain your question.
 
 
 
+=======
+// Alci: Alrighty. So I can just open up the Github shell and use that command to turn on the safety right?
+>>>>>>> 17dcaed249fdd7070d1d4b263bf934ca1d4c1d17
+
+Michael: Try hunting for it in your preferences or searching it online.  You may be able to do it in the Github shell as well.  btw you should enter twice for readability.
+
+
 PLANNING:
 
 User Input Loop
