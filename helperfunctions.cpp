@@ -39,5 +39,18 @@ static token scanner(string & scanned){
 	if (scanned.find("$") == 0 || spaceMarker + 1 == scanned.find("=") ) {
 
 	}
+
+	//metacharacter
+	if (scanned.find("#")== 0 ){
+		stuff.type = "metachar";
+		stuff.content = "#";
+		scanned.erase(0,spacemarker);
+	}
+
+	if(scanned.find("=")==0){
+		stuff.content = "=";
+		stuff.type = "metachar";
+		scanned.erase(0,spacemarker);
+	}
 }
 
