@@ -15,6 +15,7 @@ Michael: Explain your question.
 // Alci: Okay. I'm using sublime text to write my changes for the file. Is there a way for me to set my push so I don't overwrite on our work?
 
 // Michael: Yeah.  We just have to make sure to tell each other when we are pushing so we can pull.  Plus, the commit system should provide a safety net for us if we overwrite by accident.  The above command I listed should also help.  I'm using Sublime right now to edit.
+// Alci: Alrighty. So I can just open up the Github shell and use that command to turn on the safety right?
 PLANNING:
 
 User Input Loop
