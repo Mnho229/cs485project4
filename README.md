@@ -17,9 +17,5 @@ Solo do lo Mobile so local
 Hey are we gonna start a new repository for planning of just use this one?
 
 =======
-Alci was here
-Modification is here
-The cake is a lie
-and so am I
-bars.......
+Alci : Okay I'm gonna remove the extra text in here
 >>>>>>> 72f6bffe86f2e69cf49267b662fe9c51392ff8bd
