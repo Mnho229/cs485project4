@@ -6,7 +6,7 @@ Getting no signal here so communicate through here.  Our repo should be fine.  N
 jesus these random styling for text.
 
 Going to go ahead and make a launch pad for us.
-
+// Alci: alrighty
 PLANNING:
 
 User Input Loop
