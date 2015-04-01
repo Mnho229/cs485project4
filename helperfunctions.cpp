@@ -36,8 +36,20 @@ static token scanner(string & scanned){
 	}
 
 	//variable
-	if (scanned.find("$") == 0 || spaceMarker + 1 == scanned.find("=") ) {
-
+	if (scanned.find("$") == 0 || scanned.substr(scanned.find_first_not_of(" \t", sender.length() + 1), 1) == "=" )
+	{
+		if (scanned.find("$") == 0) {
+			stuff.content = sender.substr(1);
+			stuff.type = "variable";
+			scanned.erase(0, spacemarker);
+		}
+		else {
+			stuff.content = sender;
+			stuff.type = "variable";
+			scanned.erase(0, spacemarker);
+		}
 	}
+
+
 }
 
