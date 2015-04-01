@@ -50,6 +50,21 @@ static token scanner(string & scanned){
 		}
 	}
 
+<<<<<<< HEAD
 
+=======
+	//metacharacter
+	if (scanned.find("#")== 0 ){
+		stuff.type = "metachar";
+		stuff.content = "#";
+		scanned.erase(0,spacemarker);
+	}
+
+	if(scanned.find("=")==0){
+		stuff.content = "=";
+		stuff.type = "metachar";
+		scanned.erase(0,spacemarker);
+	}
+>>>>>>> 0965f9d1fb23f785a6d126994a14ff5a6c6faafd
 }
 
