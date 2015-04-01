@@ -46,3 +46,8 @@ Struct for scanner to parser
 Alci : Okay I'm gonna remove the extra text in here
 // Alci: will that still work if I am using sublime text or my repository?
 >>>>>>> 72f6bffe86f2e69cf49267b662fe9c51392ff8bd
+
+
+
+NOTES:
+1. Remember cstrings. They work with system commands
