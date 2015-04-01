@@ -9,9 +9,9 @@ using namespace std;
 void parser(string inputLine);
 
 int main() {
-	string input;
+	string input = "<bg>";
 	
-	parser("My turban is dirty.");
+	parser(input);
 
 }
 
