@@ -34,14 +34,14 @@ static vector<token> scanner(string & scanned){
 			stuff.content = compiledStrings[i].substr(1, compiledStrings[i].find('\"', 1) - 1 );
 			stuff.type = "string";
 
-<<<<<<< HEAD
+
 			scanned.erase(0, spacemarker);
 			return stuff;
 
-=======
+
 			compiledTokens.push_back(stuff);
 			continue;
->>>>>>> origin/master
+
 		}
 		//keyword
 		if (compiledStrings[i] == "defprompt" || compiledStrings[i] == "cd" || compiledStrings[i] == "listprocs" || 
