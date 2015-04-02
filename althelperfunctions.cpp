@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -9,25 +10,30 @@ struct token {
 };
 
 
-static vector<token> scanner(string & scanned){
+static vector<token> scanner(string scanned) {
 	vector<string> compiledStrings;
 	vector<token> compiledTokens;
-	while (scanned != "") {
-
-		token stuff;
+	token stuff;
+	while (!scanned.empty()) {
 		if (scanned.find(' ') != -1) {
-			int spacemarker = scanned.find(' ');
+			int spacemarker = scanned.find(" ");
 			string sender = scanned.substr(0, spacemarker);
 
 			compiledStrings.push_back(sender);
-			scanned.erase(0, spacemarker);
+			scanned.erase(0, spacemarker + 1);
 
 		}
 		else {
+			cout << endl << scanned;
 			compiledStrings.push_back(scanned);
-			scanned.erase(0);
+			scanned.erase(0, scanned.length());
+			break;
 		}
 	}
+	for (int i = 0; i < compiledStrings.size() ; i++) {
+			cout << endl << "in stringvector: " << compiledStrings[i];
+		}
+
 	for (int i = 0; i < compiledStrings.size() ; i++) {
 		//string
 		if (compiledStrings[i].find('\"') == 0) {
@@ -39,7 +45,7 @@ static vector<token> scanner(string & scanned){
 
 		}
 		//keyword
-		if (compiledStrings[i] == "defprompt" || compiledStrings[i] == "cd" || compiledStrings[i] == "listprocs" || 
+		else if (compiledStrings[i] == "defprompt" || compiledStrings[i] == "cd" || compiledStrings[i] == "listprocs" || 
 			compiledStrings[i] == "bye" || compiledStrings[i] == "run" || compiledStrings[i] == "assignto" || compiledStrings[i] == "<bg>") {
 			stuff.content = compiledStrings[i];
 			stuff.type = "keyword";
@@ -49,24 +55,22 @@ static vector<token> scanner(string & scanned){
 		}
 
 		//variable
-		if (compiledStrings[i].find('$') == 0 || compiledStrings[i+1] == '=')
+		else if ( compiledStrings[i].find("$") == 0)
 		{
-			if (compiledStrings[i].find('$') == 0) {
-				stuff.content = compiledStrings[i].substr(1);
-				stuff.type = "variable";
-				compiledTokens.push_back(stuff);
-				continue;
-			}
-			else {
+			stuff.content = compiledStrings[i].substr(1);
+			stuff.type = "variable";
+			compiledTokens.push_back(stuff);
+			continue;
+		}
+		else if (compiledStrings[i+1] != NULL) {
 				stuff.content = compiledStrings[i];
 				stuff.type = "variable";
 				compiledTokens.push_back(stuff);
 				continue;
 			}
-		}
 
 		// statement for metachar '#'
-		if (compiledTokens[i]=='#' ){
+		else if (compiledStrings[i] == "#" ){
 
 			stuff.type = "metachar";
 			stuff.content = "#";
@@ -75,7 +79,7 @@ static vector<token> scanner(string & scanned){
 		}
 
 		// statement for metachar '='
-		if(compiledTokens[i]=='='){
+		else if(compiledStrings[i] == "="){
 
 			stuff.content = "=";
 			stuff.type = "metachar";
@@ -83,16 +87,15 @@ static vector<token> scanner(string & scanned){
 			continue;
 		}
 
+		else {
+			stuff.type = "word";
+			stuff.content = compiledStrings[i];
+			compiledTokens.push_back(stuff);
+		}
 
-		
-		stuff.type = "word";
-		stuff.content = compiledString[i];
-		compiledTokens.push_back(stuff);
-		
-		
-
-		
 	}
+
+	return compiledTokens;
 
 }
 
