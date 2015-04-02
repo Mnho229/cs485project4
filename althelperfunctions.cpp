@@ -64,7 +64,7 @@ static vector<token> scanner(string scanned) {
 			compiledTokens.push_back(stuff);
 			continue;
 		}
-		if (compiledStrings[i+1] == "=" && compiledStrings[i] != "#") {
+		if (i == 0 && compiledStrings[i+1] == "=" && compiledStrings[i] != "#") {
 				stuff.content = compiledStrings[i];
 				stuff.type = "variable";
 				compiledTokens.push_back(stuff);
