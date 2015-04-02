@@ -32,6 +32,7 @@ static vector<token> scanner(string & scanned){
 
 			scanned.erase(0, spacemarker);
 			return stuff;
+
 		}
 
 		if (sender == "defprompt" || sender == "cd" || sender == "listprocs" || 
@@ -59,39 +60,33 @@ static vector<token> scanner(string & scanned){
 			}
 		}
 
-		//metacharacter
-		if (scanned.find('#')== 0 ){
+		// statement for metachar '#'
+		if (compiledTokens[i]=='#' ){
+
 			stuff.type = "metachar";
 			stuff.content = "#";
-			scanned.erase(0,spacemarker);
-			return stuff;
+			compiledTokens.push_back(stuff);
+			continue;
 		}
 
-		if(scanned.find('=')==0){
+		// statement for metachar '='
+		if(compiledTokens[i]=='='){
+
 			stuff.content = "=";
 			stuff.type = "metachar";
-			scanned.erase(0,spacemarker);
-			return stuff;
+			compiledTokens.push_back(stuff);
+			continue;
 		}
-		cout << endl << "terminate?";
-		stuff.type = "word";
-		stuff.content = sender;
-		scanned.erase(0, spacemarker);
-		return stuff;
 
-		//keyword
-		/*
-		string keywords[7] = {"defprompt", "cd", "listprocs", "bye", "run", "assignto", "<bg>"};
-		for (int i = 0; i < 8; i++) {
-			if (sender == keywords[i]) {
-				cout << endl << "Sender: " << sender;
-				stuff.content = keywords[i];
-				stuff.type = "keyword";
-				scanned.erase(0, spacemarker);
-				return stuff;
-			}
-		}
-		*/
+
+		
+		stuff.type = "word";
+		stuff.content = compiledString[i];
+		compiledTokens.push_back(stuff);
+		
+		
+
+		
 	}
 
 }
