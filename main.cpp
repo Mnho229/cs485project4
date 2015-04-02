@@ -31,6 +31,10 @@ void parser(string inputLine) {
 	while(inputLine != "") {
 		token reply = scanner(inputLine);
 
+		if (reply.type == "takeout") {
+			continue;
+		}
+
 		tokenList.push_back(reply);
 
 	}
