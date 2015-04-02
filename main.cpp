@@ -34,4 +34,7 @@ void parser(string inputLine) {
 
 	}
 	//syntax
+	if (tokenList[0].type == "variable" && tokenList[1].content == "=") {
+
+	}
 }
