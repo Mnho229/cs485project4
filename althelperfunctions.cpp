@@ -10,53 +10,63 @@ struct token {
 
 
 static vector<token> scanner(string & scanned){
+	vector<string> compiledStrings;
 	vector<token> compiledTokens;
 	while (scanned != "") {
 
 		token stuff;
+		if (scanned.find(' ') != -1) {
+			int spacemarker = scanned.find(' ');
+			string sender = scanned.substr(0, spacemarker);
 
-		int spacemarker = scanned.find(' ');
-		string sender = scanned.substr(0, spacemarker);
+			compiledStrings.push_back(sender);
+			scanned.erase(0, spacemarker);
 
-		if (scanned.find(' ') == 0) {
-			scanned.erase(0, 1);
-			stuff.type = "takeout";
-			stuff.content = "takeout";
-			return stuff;
 		}
-
+		else {
+			compiledStrings.push_back(scanned);
+			scanned.erase(0);
+		}
+	}
+	for (int i = 0; i < compiledStrings.size() ; i++) {
 		//string
-		if (scanned.find('\"') == 0) {
-			stuff.content = scanned.substr(1, scanned.find('\"', 1) - 1 );
+		if (compiledStrings[i].find('\"') == 0) {
+			stuff.content = compiledStrings[i].substr(1, compiledStrings[i].find('\"', 1) - 1 );
 			stuff.type = "string";
 
+<<<<<<< HEAD
 			scanned.erase(0, spacemarker);
 			return stuff;
 
+=======
+			compiledTokens.push_back(stuff);
+			continue;
+>>>>>>> origin/master
 		}
-
-		if (sender == "defprompt" || sender == "cd" || sender == "listprocs" || 
-			sender == "bye" || sender == "run" || sender == "assignto" || sender == "<bg>") {
-			stuff.content = sender;
+		//keyword
+		if (compiledStrings[i] == "defprompt" || compiledStrings[i] == "cd" || compiledStrings[i] == "listprocs" || 
+			compiledStrings[i] == "bye" || compiledStrings[i] == "run" || compiledStrings[i] == "assignto" || compiledStrings[i] == "<bg>") {
+			stuff.content = compiledStrings[i];
 			stuff.type = "keyword";
-			scanned.erase(0, spacemarker);
-			return stuff;
+			
+			compiledTokens.push_back(stuff);
+			continue;
 		}
 
 		//variable
-		if (scanned.find('$') == 0 || scanned.substr(scanned.find_first_not_of(' ', sender.length()), 1) == "=")
+		if (compiledStrings[i].find('$') == 0 || compiledStrings[i+1] == '=')
 		{
-			if (scanned.find('$') == 0) {
-				stuff.content = sender.substr(1);
+			if (compiledStrings[i].find('$') == 0) {
+				stuff.content = compiledStrings[i].substr(1);
 				stuff.type = "variable";
-				scanned.erase(0, spacemarker);
-				return stuff;
+				compiledTokens.push_back(stuff);
+				continue;
 			}
 			else {
-				stuff.content = sender;
+				stuff.content = compiledStrings[i];
 				stuff.type = "variable";
-				scanned.erase(0, spacemarker);
-				return stuff;
+				compiledTokens.push_back(stuff);
+				continue;
 			}
 		}
 
