@@ -40,22 +40,39 @@ void parser(string inputLine) {
 	if (tokenList[0].type == "variable" && tokenList[1].content == "=") {
 		tokenList[0].usage = "variable";
 		tokenList[1].usage = "assignment";
-		tokenList[2].usage = "variablDdef";
+		tokenList[2].usage = "variableDef";
 	}
 
-	if (tokenList[0].content = "#") {
+	if (tokenList[0].content == "#") {
 		for (int i = 0; i < tokenList.size() ; i++) {
 			tokenList[i].usage = "comment";
 		}
 	}
 
-	if (tokenList[0].content = "defprompt") {
+	if (tokenList[0].content == "defprompt") {
 
 	}
 
-	if (tokenList[0].content = "cd") {
+	if (tokenList[0].content == "cd") {
 
 	}
+	if (tokenList[0].content == "bye") {
+		exit(0);
+	}
+
+	//Program-control commands
+	if (tokenList[0].content == "run" || tokenList[0].content == "assignto") {
+
+	}
+}
+
+void program_center() {
+
+	
+
+
 
 
 }
+
+
