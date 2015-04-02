@@ -2,7 +2,7 @@
 #include <string>
 #include <map>
 #include <vector>
-#include "helperfunctions.h"
+#include "althelperfunctions.h"
 
 using namespace std;
 
@@ -26,18 +26,8 @@ int main() {
 }
 
 void parser(string inputLine) {
-	vector<token> tokenList;
+	vector<token> tokenList = scanner(inputLine);
 
-	while(inputLine != "") {
-		token reply = scanner(inputLine);
-
-		if (reply.type == "takeout") {
-			continue;
-		}
-
-		tokenList.push_back(reply);
-
-	}
 	for (int i = 0; i < tokenList.size() ; i++) {
 
 		cout << endl << tokenList[i].type << endl << tokenList[i].content << endl;
