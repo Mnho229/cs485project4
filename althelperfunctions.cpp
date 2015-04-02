@@ -9,7 +9,8 @@ struct token {
 };
 
 
-static token scanner(string & scanned){
+static vector<token> scanner(string & scanned){
+	vector<token> compiledTokens;
 	while (scanned != "") {
 
 		token stuff;
