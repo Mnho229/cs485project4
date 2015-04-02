@@ -15,9 +15,10 @@ int main() {
 	variables["ShowTokens"] = "0";
 
 	string input;
+	string currentDirectory;
 	
 	while(input != "bye"){
-		cout << "sish$ <";
+		cout << "sish >";
 		getline(cin,input);
 		parser(input);
 	}
@@ -34,7 +35,27 @@ void parser(string inputLine) {
 
 	}
 	//syntax
+
+	//built in commands
 	if (tokenList[0].type == "variable" && tokenList[1].content == "=") {
+		tokenList[0].usage = "variable";
+		tokenList[1].usage = "assignment";
+		tokenList[2].usage = "variablDdef";
+	}
+
+	if (tokenList[0].content = "#") {
+		for (int i = 0; i < tokenList.size() ; i++) {
+			tokenList[i].usage = "comment";
+		}
+	}
+
+	if (tokenList[0].content = "defprompt") {
 
 	}
+
+	if (tokenList[0].content = "cd") {
+
+	}
+
+
 }

@@ -7,6 +7,7 @@ using namespace std;
 struct token {
 	string type;
 	string content;
+	string usage;
 };
 
 
