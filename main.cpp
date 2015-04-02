@@ -30,7 +30,7 @@ void parser(string inputLine) {
 
 	for (int i = 0; i < tokenList.size() ; i++) {
 
-		cout << endl << tokenList[i].type << endl << tokenList[i].content << endl;
+		cout << endl << tokenList[i].type << endl << tokenList[i].content;
 
 	}
 	//syntax

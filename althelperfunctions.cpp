@@ -24,17 +24,19 @@ static vector<token> scanner(string scanned) {
 
 		}
 		else {
-			cout << endl << scanned;
 			compiledStrings.push_back(scanned);
 			scanned.erase(0, scanned.length());
 			break;
 		}
 	}
-	for (int i = 0; i < compiledStrings.size() ; i++) {
-			cout << endl << "in stringvector: " << compiledStrings[i];
-		}
+
+	compiledStrings.push_back(" ");
 
 	for (int i = 0; i < compiledStrings.size() ; i++) {
+		if (compiledStrings[i] == " ") {
+			compiledStrings.pop_back();
+			break;
+		}
 		//string
 		if (compiledStrings[i].find('\"') == 0) {
 			stuff.content = compiledStrings[i].substr(1, compiledStrings[i].find('\"', 1) - 1 );
@@ -45,7 +47,7 @@ static vector<token> scanner(string scanned) {
 
 		}
 		//keyword
-		else if (compiledStrings[i] == "defprompt" || compiledStrings[i] == "cd" || compiledStrings[i] == "listprocs" || 
+		if (compiledStrings[i] == "defprompt" || compiledStrings[i] == "cd" || compiledStrings[i] == "listprocs" || 
 			compiledStrings[i] == "bye" || compiledStrings[i] == "run" || compiledStrings[i] == "assignto" || compiledStrings[i] == "<bg>") {
 			stuff.content = compiledStrings[i];
 			stuff.type = "keyword";
@@ -55,14 +57,14 @@ static vector<token> scanner(string scanned) {
 		}
 
 		//variable
-		else if ( compiledStrings[i].find("$") == 0)
+		if ( compiledStrings[i].find("$") == 0)
 		{
 			stuff.content = compiledStrings[i].substr(1);
 			stuff.type = "variable";
 			compiledTokens.push_back(stuff);
 			continue;
 		}
-		else if (compiledStrings[i+1] != NULL) {
+		if (compiledStrings[i+1] == "=" && compiledStrings[i] != "#") {
 				stuff.content = compiledStrings[i];
 				stuff.type = "variable";
 				compiledTokens.push_back(stuff);
@@ -70,7 +72,7 @@ static vector<token> scanner(string scanned) {
 			}
 
 		// statement for metachar '#'
-		else if (compiledStrings[i] == "#" ){
+		if (compiledStrings[i] == "#" ){
 
 			stuff.type = "metachar";
 			stuff.content = "#";
@@ -79,14 +81,13 @@ static vector<token> scanner(string scanned) {
 		}
 
 		// statement for metachar '='
-		else if(compiledStrings[i] == "="){
+		if(compiledStrings[i] == "="){
 
 			stuff.content = "=";
 			stuff.type = "metachar";
 			compiledTokens.push_back(stuff);
 			continue;
 		}
-
 		else {
 			stuff.type = "word";
 			stuff.content = compiledStrings[i];
