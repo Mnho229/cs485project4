@@ -14,7 +14,7 @@ map<string, string> variables;
 int main() {
 	variables["PATH"] = "/bin:/usr/bin";
 	variables["ShowTokens"] = "0";
-	variables["prompt"] = "sish >"
+	variables["prompt"] = "sish >";
 
 	string input;
 	
@@ -81,8 +81,8 @@ void parser(string inputLine) {
 	}
 
 	if (tokenList[0].content == "defprompt") {
-		tokenList[0].usage = "anyText"
-		tokenList[1].usage = "prompt"
+		tokenList[0].usage = "anyText";
+		tokenList[1].usage = "prompt";
 
 		variables["prompt"] = tokenList[1].content;
 	}
