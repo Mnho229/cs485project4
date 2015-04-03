@@ -34,7 +34,16 @@ void parser(string inputLine) {
 
 	for (int i = 1; i < tokenList.size() ; i++) {
 		if ((tokenList[i].content).find("$") == 0 && tokenList[i].type == "variable") {
-			
+			map<string, string>::iterator it;
+
+			string temp = (tokenList[i].content).substr(1, (tokenList[i].content).length());
+
+			for (it = variables.begin(); it != variables.end(); it++) {
+				if (it->first == temp) {
+					tokenList[i].content = it->second;
+					tokenList[i].type = "word";
+				}
+			}
 		}
 	}
 
@@ -61,7 +70,7 @@ void parser(string inputLine) {
 		tokenList[2].usage = "variableDef";
 
 		if ((tokenList[0].content).find("$") == 0) {
-			string temp = (tokenList[0].content).substr(1, (tokenList[0].content).length())
+			string temp = (tokenList[0].content).substr(1, (tokenList[0].content).length());
 			variables[temp] = tokenList[2].content;
 		}
 		else {
