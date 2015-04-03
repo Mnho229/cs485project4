@@ -14,12 +14,12 @@ map<string, string> variables;
 int main() {
 	variables["PATH"] = "/bin:/usr/bin";
 	variables["ShowTokens"] = "0";
+	variables["prompt"] = "sish >"
 
 	string input;
-	string currentDirectory;
 	
 	while(input != "bye"){
-		cout << "sish >";
+		cout << variables["prompt"];
 		getline(cin,input);
 		parser(input);
 	}
@@ -28,28 +28,54 @@ int main() {
 }
 
 void parser(string inputLine) {
+	bool tokenDisplay = false;
+
 	vector<token> tokenList = scanner(inputLine);
 
-	if (variables["ShowTokens"] == "1") {
+	for (int i = 1; i < tokenList.size() ; i++) {
+		if ((tokenList[i].content).find("$") == 0 && tokenList[i].type == "variable") {
+			
+		}
+	}
 
+	if (variables["ShowTokens"] == "1") {
+		tokenDisplay = true;
+	}
+	else {
+		tokenDisplay = false;
 	}
 	//syntax
 
 	//built in commands
-	if (tokenList[0].type == "variable" && tokenList[1].content == "=") {
-		tokenList[0].usage = "variable";
-		tokenList[1].usage = "assignment";
-		tokenList[2].usage = "variableDef";
-	}
-
 	if (tokenList[0].content == "#") {
 		for (int i = 0; i < tokenList.size() ; i++) {
 			tokenList[i].usage = "comment";
 		}
+
+		return;
+	}
+
+	if (tokenList[0].type == "variable" && tokenList[1].content == "=") {
+		tokenList[0].usage = "variable";
+		tokenList[1].usage = "assignment";
+		tokenList[2].usage = "variableDef";
+
+		if ((tokenList[0].content).find("$") == 0) {
+			string temp = (tokenList[0].content).substr(1, (tokenList[0].content).length())
+			variables[temp] = tokenList[2].content;
+		}
+		else {
+			variables[tokenList[0].content] = tokenList[2].content;
+		}
+
+		return;
 	}
 
 	if (tokenList[0].content == "defprompt") {
+		tokenList[0].usage = "anyText"
+		tokenList[1].usage = "prompt"
 
+		variables["prompt"] = tokenList[1].content;
 	}
 
 	if (tokenList[0].content == "cd") {
@@ -71,38 +97,49 @@ void program_center(vector<token> cmdline) {
 	if (cmdline[0].content == "run") {
 		
 		if (cmdline[ cmdline.size() - 1 ].content == "<bg>") {
-			
-			int pid_ps = fork();
-			if (pid_ps == 0) {
 
-				char *args[] = {};
-				for (int i = 1; i < cmdline.size() - 1 ; i++) {
+			char *args[cmdline.size()-1];
 
-					char * temp =const_cast<char *>((cmdline[i].content).c_str());
+			for (int i = 1; i < cmdline.size() - 1 ; i++) {
 
-					args[i] = temp;
+			 	char * temp =const_cast<char *>((cmdline[i].content).c_str());
+			 	args[i-1] = temp;
+			 	cout << endl << args[i-1];
+			 }
+			 args[cmdline.size() - 2] = 0;
 
-				}
-				execv(args[0], args);
+			 int pid_ps = fork();
 
-			}
+			 if (pid_ps > 0) {
+
+			 }
+			 else {
+			 	execvp(args[0], args);
+			 }
 		}
 		else {
+		
+			char *args[cmdline.size()];
+			 	
+			 for (int i = 1; i < cmdline.size() ; i++) {
 
-			int pid_ps = fork();
-			if (pid_ps == 0) {
+			 	char * temp =const_cast<char *>((cmdline[i].content).c_str());
+			 	args[i - 1] = temp;
 
-				char *args[] = {};
-				for (int i = 1; i < cmdline.size() ; i++) {
+			 }
+			 	
+			 args[cmdline.size() - 1] = 0;
 
-					char * temp =const_cast<char *>((cmdline[i].content).c_str());
+			 int pid_ps = fork();
 
-					args[i] = temp;
+			 if (pid_ps > 0) {
 
-				}
-				execv(args[0], args);
-				pid_t pid = wait(0);
-			}
+			 	wait(0);
+			 	
+			 }
+			 else {
+			 	execvp(args[0], args);
+			 }
 		}
 
 
