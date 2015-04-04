@@ -82,7 +82,7 @@ void parser(string inputLine) {
 	}
 
 	if (tokenList[0].content == "defprompt") {
-		tokenList[0]. = "anyText";
+		tokenList[0].usage = "anyText";
 		tokenList[1].usage = "prompt";
 
 		variables["prompt"] = tokenList[1].content;
