@@ -4,7 +4,9 @@
 #include <map>
 #include <vector>
 #include <unistd.h>
+#include <fcntl.h>
 #include "helperfunctions.h"
+#include <fstream>
 
 using namespace std;
 
@@ -35,7 +37,7 @@ void parser(string inputLine) {
 	vector<token> tokenList = scanner(inputLine);
 
 	for (int i = 1; i < tokenList.size() ; i++) {
-		cout << endl << tokenList[i].content;
+		cout << endl << "Current token: " << tokenList[i].content;
 		if ((tokenList[i].content).find('$') == 0 && tokenList[i].type == "variable") {
 
 			map<string, string>::iterator it;
@@ -119,7 +121,7 @@ void parser(string inputLine) {
 			program_center(tokenList);
 	}
 	else{
-		cout << "Command not found.....Please try again." << end;
+		cout << "Command not found.....Please try again." << endl;
 	}
 }
 
@@ -185,11 +187,9 @@ void program_center(vector<token> cmdline) {
 
 			 	char * temp =const_cast<char *>((cmdline[i].content).c_str());
 			 	args[i - 2] = temp;
-
 			 }
 			 	
-			 args[cmdline.size() - 1] = 0;
-
+			 args[cmdline.size() - 2] = 0;
 			 int pid_ps = fork();
 
 			 if (pid_ps > 0) {
@@ -198,9 +198,18 @@ void program_center(vector<token> cmdline) {
 			 	
 			 }
 			 else {
+			 	int fd = open("temp.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
+			 	dup2(fd, 1);
+			 	close(fd);
 			 	execvp(args[0], args);
 			 }
-		
+		fstream tempFile;
+		string definition;
+		tempFile.open("temp.txt");
+
+		getline(tempFile, definition);
+		variables[cmdline[1].content] = definition;
+		tempFile.close();
 	}
 
 
@@ -211,7 +220,7 @@ void organizer(vector<token>Tokens){
 	int tokenum = 0;
 	while(tokenum != Tokens.size()){
 		cout << setw(21) << "Token Type = " << Tokens[tokenum].type ;
-		cout << setw(256) << "Token = " << Tokens[tokenum].content << ;
+		cout << setw(256) << "Token = " << Tokens[tokenum].content;
 		cout << setw(20) << "Usage = " << Tokens[tokenum].usage << endl;
 		tokenum++;
 	}
