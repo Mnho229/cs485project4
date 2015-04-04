@@ -157,6 +157,28 @@ void program_center(vector<token> cmdline) {
 
 	if (cmdline[0].content == "assignto") {
 
+		char *args[cmdline.size()];
+			 	
+			 for (int i = 2; i < cmdline.size() ; i++) {
+
+			 	char * temp =const_cast<char *>((cmdline[i].content).c_str());
+			 	args[i - 2] = temp;
+
+			 }
+			 	
+			 args[cmdline.size() - 1] = 0;
+
+			 int pid_ps = fork();
+
+			 if (pid_ps > 0) {
+
+			 	wait(0);
+			 	
+			 }
+			 else {
+			 	execvp(args[0], args);
+			 }
+		}
 	}
 
 
