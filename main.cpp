@@ -20,7 +20,7 @@ int main() {
 	string input;
 	
 	while(input != "bye"){
-		cout << variables["prompt"];
+		cout << endl << variables["prompt"];
 		getline(cin,input);
 		parser(input);
 	}
@@ -34,13 +34,16 @@ void parser(string inputLine) {
 	vector<token> tokenList = scanner(inputLine);
 
 	for (int i = 1; i < tokenList.size() ; i++) {
-		if ((tokenList[i].content).find("$") == 0 && tokenList[i].type == "variable") {
+		cout << endl << tokenList[i].content;
+		if ((tokenList[i].content).find('$') == 0 && tokenList[i].type == "variable") {
+
 			map<string, string>::iterator it;
 
 			string temp = (tokenList[i].content).substr(1, (tokenList[i].content).length());
-
+			
 			for (it = variables.begin(); it != variables.end(); it++) {
 				if (it->first == temp) {
+					cout << endl << it->second;
 					tokenList[i].content = it->second;
 					tokenList[i].type = "word";
 				}

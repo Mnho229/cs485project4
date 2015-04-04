@@ -18,6 +18,24 @@ static vector<token> scanner(string scanned) {
 	while (!scanned.empty()) {
 		if (scanned.find(' ') != -1) {
 			int spacemarker = scanned.find(" ");
+
+			if (scanned.find('\"') == 0) {
+
+				int quotemarker = scanned.find('\"', 1);
+				int altspacemarker = scanned.find(' ', quotemarker);
+				if (altspacemarker != -1) {
+					compiledStrings.push_back( scanned.substr(0, altspacemarker) );
+					scanned.erase(0, altspacemarker + 1);
+					continue;
+				}
+				else {
+					compiledStrings.push_back(scanned);
+					scanned.erase(0, scanned.length());
+					break;
+				}
+
+			}
+
 			string sender = scanned.substr(0, spacemarker);
 
 			compiledStrings.push_back(sender);
@@ -40,7 +58,7 @@ static vector<token> scanner(string scanned) {
 		}
 		//string
 		if (compiledStrings[i].find('\"') == 0) {
-			stuff.content = compiledStrings[i].substr(1, compiledStrings[i].find('\"', 1));
+			stuff.content = compiledStrings[i].substr(1, compiledStrings[i].find('\"', 1) - 1);
 			stuff.type = "string";
 
 			compiledTokens.push_back(stuff);
@@ -60,7 +78,7 @@ static vector<token> scanner(string scanned) {
 		//variable
 		if ( compiledStrings[i].find("$") == 0)
 		{
-			stuff.content = compiledStrings[i].substr(1);
+			stuff.content = compiledStrings[i];
 			stuff.type = "variable";
 			compiledTokens.push_back(stuff);
 			continue;
