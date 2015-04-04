@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include <map>
 #include <vector>
@@ -92,8 +93,20 @@ void parser(string inputLine) {
 	}
 
 	if (tokenList[0].content == "cd") {
-		if(tokenList[1].type == "word"){
-			chdir((tokenList[1].content).c_str());
+		if(tokenList.size()==1){
+
+			cout << "Error. Please enter a path for cd command."<< endl;
+
+		}
+		else{
+
+			if(tokenList[1].type == "word"){
+				chdir((tokenList[1].content).c_str());
+			}
+
+			else{
+				cout << "please enter word for cd command." << endl;
+			}
 		}
 	}
 	if (tokenList[0].content == "bye") {
@@ -104,6 +117,9 @@ void parser(string inputLine) {
 	if (tokenList[0].content == "run" || tokenList[0].content == "assignto") {
 
 			program_center(tokenList);
+	}
+	else{
+		cout << "Command not found.....Please try again." << end;
 	}
 }
 
@@ -189,6 +205,16 @@ void program_center(vector<token> cmdline) {
 
 
 
+}
+
+void organizer(vector<token>Tokens){
+	int tokenum = 0;
+	while(tokenum != Tokens.size()){
+		cout << setw(21) << "Token Type = " << Tokens[tokenum].type ;
+		cout << setw(256) << "Token = " << Tokens[tokenum].content << ;
+		cout << setw(20) << "Usage = " << Tokens[tokenum].usage << endl;
+		tokenum++;
+	}
 }
 
 
