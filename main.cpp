@@ -2,6 +2,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <unistd.h>
 #include "helperfunctions.h"
 
 using namespace std;
@@ -81,14 +82,16 @@ void parser(string inputLine) {
 	}
 
 	if (tokenList[0].content == "defprompt") {
-		tokenList[0].usage = "anyText";
+		tokenList[0]. = "anyText";
 		tokenList[1].usage = "prompt";
 
 		variables["prompt"] = tokenList[1].content;
 	}
 
 	if (tokenList[0].content == "cd") {
-
+		if(tokenList[1].type == "word"){
+			chdir((tokenList[1].content).c_str());
+		}
 	}
 	if (tokenList[0].content == "bye") {
 		exit(0);
