@@ -40,7 +40,7 @@ static vector<token> scanner(string scanned) {
 		}
 		//string
 		if (compiledStrings[i].find('\"') == 0) {
-			stuff.content = compiledStrings[i].substr(1, compiledStrings[i].find('\"', 1) - 1 );
+			stuff.content = compiledStrings[i].substr(1, compiledStrings[i].find('\"', 1));
 			stuff.type = "string";
 
 			compiledTokens.push_back(stuff);

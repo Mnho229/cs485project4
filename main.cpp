@@ -181,7 +181,7 @@ void program_center(vector<token> cmdline) {
 			 else {
 			 	execvp(args[0], args);
 			 }
-		}
+		
 	}
 
 
