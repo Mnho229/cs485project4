@@ -20,6 +20,8 @@ int main() {
 	variables["ShowTokens"] = "0";
 	variables["prompt"] = "sish >";
 
+	vector<string> processList;
+
 	string input;
 	
 	while(input != "bye"){
@@ -36,7 +38,7 @@ void parser(string inputLine) {
 
 	vector<token> tokenList = scanner(inputLine);
 
-	for (int i = 1; i < tokenList.size() ; i++) {
+	for (size_t i = 1; i < tokenList.size() ; i++) {
 		cout << endl << "Current token: " << tokenList[i].content;
 		if ((tokenList[i].content).find('$') == 0 && tokenList[i].type == "variable") {
 
@@ -64,7 +66,7 @@ void parser(string inputLine) {
 
 	//built in commands
 	if (tokenList[0].content == "#") {
-		for (int i = 0; i < tokenList.size() ; i++) {
+		for (size_t i = 0; i < tokenList.size() ; i++) {
 			tokenList[i].usage = "comment";
 		}
 
@@ -111,6 +113,18 @@ void parser(string inputLine) {
 			}
 		}
 	}
+
+	if (tokenlist[0].content == "listprocs") {
+		int status;
+		pid_t pid = waitpid(-1, &status, WNOHANG);
+		if (pid > 0) {
+			processList.pop_back();
+		}
+		for {size_t i = 0; i < listprocs.size(); i++} {
+			cout << endl << i << ". " << listprocs[i];
+		}
+	}
+
 	if (tokenList[0].content == "bye") {
 		exit(0);
 	}
@@ -118,14 +132,12 @@ void parser(string inputLine) {
 	//Program-control commands
 	if (tokenList[0].content == "run" || tokenList[0].content == "assignto") {
 
-			program_center(tokenList);
+			program_center(tokenList, processList);
 	}
-	else{
-		cout << "Command not found.....Please try again." << endl;
-	}
+
 }
 
-void program_center(vector<token> cmdline) {
+void program_center(vector<token> cmdline, vector<string> plist) {
 
 	if (cmdline[0].content == "run") {
 		
@@ -133,7 +145,7 @@ void program_center(vector<token> cmdline) {
 
 			char *args[cmdline.size()-1];
 
-			for (int i = 1; i < cmdline.size() - 1 ; i++) {
+			for (size_t i = 1; i < cmdline.size() - 1 ; i++) {
 
 			 	char * temp =const_cast<char *>((cmdline[i].content).c_str());
 			 	args[i-1] = temp;
@@ -141,6 +153,9 @@ void program_center(vector<token> cmdline) {
 			 }
 			 args[cmdline.size() - 2] = 0;
 
+			 string concat1 = cmdline[1].content;
+
+			 processList.push_back(concat);
 			 int pid_ps = fork();
 
 			 if (pid_ps > 0) {
@@ -154,7 +169,7 @@ void program_center(vector<token> cmdline) {
 		
 			char *args[cmdline.size()];
 			 	
-			 for (int i = 1; i < cmdline.size() ; i++) {
+			 for (size_t i = 1; i < cmdline.size() ; i++) {
 
 			 	char * temp =const_cast<char *>((cmdline[i].content).c_str());
 			 	args[i - 1] = temp;
@@ -183,7 +198,7 @@ void program_center(vector<token> cmdline) {
 
 		char *args[cmdline.size()];
 			 	
-			 for (int i = 2; i < cmdline.size() ; i++) {
+			 for (size_t i = 2; i < cmdline.size() ; i++) {
 
 			 	char * temp =const_cast<char *>((cmdline[i].content).c_str());
 			 	args[i - 2] = temp;
@@ -217,7 +232,7 @@ void program_center(vector<token> cmdline) {
 }
 
 void organizer(vector<token>Tokens){
-	int tokenum = 0;
+	size_t tokenum = 0;
 	while(tokenum != Tokens.size()){
 		cout << setw(21) << "Token Type = " << Tokens[tokenum].type ;
 		cout << setw(256) << "Token = " << Tokens[tokenum].content;

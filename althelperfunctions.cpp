@@ -11,12 +11,13 @@ struct token {
 };
 
 
-static vector<token> scanner(string scanned) {
+inline vector<token> scanner(string scanned) {
 	vector<string> compiledStrings;
 	vector<token> compiledTokens;
 	token stuff;
 	while (!scanned.empty()) {
-		if (scanned.find(' ') != -1) {
+		signed int checker = scanned.find(' ');
+		if (checker != -1) {
 			int spacemarker = scanned.find(" ");
 
 			if (scanned.find('\"') == 0) {
@@ -51,7 +52,7 @@ static vector<token> scanner(string scanned) {
 
 	compiledStrings.push_back(" ");
 
-	for (int i = 0; i < compiledStrings.size() ; i++) {
+	for (size_t i = 0; i < compiledStrings.size() ; i++) {
 		if (compiledStrings[i] == " ") {
 			compiledStrings.pop_back();
 			break;
