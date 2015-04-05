@@ -13,6 +13,7 @@ using namespace std;
 
 void parser(string inputLine);
 void program_center(vector<token> cmdline);
+void organizer(vector<token>Tokens, bool flag);
 map<string, string> variables;
 vector<string> processList;
 
@@ -73,16 +74,16 @@ void parser(string inputLine) {
 		for (size_t i = 0; i < tokenList.size() ; i++) {
 			tokenList[i].usage = "comment";
 		}
-
+		organizer(tokenList, tokenDisplay);
 		return;
 	}
 
 	if (tokenList[0].type == "variable" && tokenList[1].content == "=") {
-		if (tokenList > 3) {
+		if (tokenList.size() > 3) {
 			cout << endl << "Error: too many arguments";
 			return;
 		}
-		if (tokenList = 2) {
+		if (tokenList.size() == 2) {
 			cout << endl << "Error: Nothing to set the variable equal to:";
 			return;
 		}
@@ -90,6 +91,7 @@ void parser(string inputLine) {
 		tokenList[0].usage = "variable";
 		tokenList[1].usage = "assignment";
 		tokenList[2].usage = "variableDef";
+		organizer(tokenList, tokenDisplay);
 
 		if ((tokenList[0].content).find("$") == 0) {
 			string temp = (tokenList[0].content).substr(1, (tokenList[0].content).length());
@@ -104,12 +106,18 @@ void parser(string inputLine) {
 
 	if (tokenList[0].content == "defprompt") {
 		if(tokenList.size() > 2){
-			cout << "Error to many arguments......" << endl;
+			cout << endl << "Error too many arguments......";
+			return;
+		}
+		if (tokenList.size() == 1) {
+			cout << endl << "Error: Need a string prompt to accompany defprompt";
 			return;
 		}
 		else{
 			tokenList[0].usage = "anyText";
 			tokenList[1].usage = "prompt";
+
+			organizer(tokenList, tokenDisplay);
 
 			variables["prompt"] = tokenList[1].content;
 			return;
@@ -130,10 +138,10 @@ void parser(string inputLine) {
 		else{
 
 			if(tokenList[1].type == "word"){
-				tokenList[0].usage = "change directory"
+				tokenList[0].usage = "change directory";
 				tokenList[1].usage = "anyText";
 
-				
+
 				chdir((tokenList[1].content).c_str());
 				return;
 			}
@@ -151,7 +159,8 @@ void parser(string inputLine) {
 			return;
 		}
 		else {
-			tokenList[0].content = "listprocs";
+			tokenList[0].usage = "listprocs";
+			organizer(tokenList, tokenDisplay);
 		}
 
 		int status;
@@ -172,25 +181,26 @@ void parser(string inputLine) {
 	if (tokenList[0].content == "run" || tokenList[0].content == "assignto") {
 
 		if (tokenList[0].content == "run") {
-			tokenList[0].usage == "run";
-			tokenList[1].usage == "cmd";
+			tokenList[0].usage = "run";
+			tokenList[1].usage = "cmd";
 
 			if (tokenList.size() > 2) {
 				for (size_t i = 2; i < tokenList.size() ; i++) {
-					tokenList[i].usage == "Parameter " + ToString(i - 1);
+					tokenList[i].usage = "Parameter " + ToString(i - 1);
 				}
 			}
 		}
 		if (tokenList[0].content == "assignto") {
-			tokenList[0].usage == "assignto";
-			tokenList[1].usage == "variable";
-			tokenList[2].usage == "cmd";
+			tokenList[0].usage = "assignto";
+			tokenList[1].usage = "variable";
+			tokenList[2].usage = "cmd";
 			if (tokenList.size() > 3) {
 				for (size_t i = 3; i < tokenList.size() ; i++) {
-					tokenList[i].usage == "Parameter " + ToString(i - 2);
+					tokenList[i].usage = "Parameter " + ToString(i - 2);
 				}
 			}
 		}
+		organizer(tokenList, tokenDisplay);
 		program_center(tokenList);
 	}
 
@@ -290,14 +300,50 @@ void program_center(vector<token> cmdline) {
 
 }
 
-void organizer(vector<token>Tokens){
-	size_t tokenum = 0;
-	while(tokenum != Tokens.size()){
-		cout << setw(21) << "Token Type = " << Tokens[tokenum].type ;
-		cout << setw(256) << "Token = " << Tokens[tokenum].content;
-		cout << setw(20) << "Usage = " << Tokens[tokenum].usage << endl;
-		tokenum++;
+void organizer(vector<token>Tokens, bool flag){
+	if (flag == true) {
+		size_t tokenum = 0;
+		size_t typeSize = 0;
+		string bigType;
+		size_t contentSize = 0;
+		string bigContent;
+
+		for (size_t i = 0; i < Tokens.size(); i++) {
+			if (typeSize < (Tokens[i].type).length()) {
+				typeSize = (Tokens[i].type).length();
+				bigType = Tokens[i].type;
+			}
+			if (contentSize < (Tokens[i].content).length()) {
+				contentSize = (Tokens[i].content).length();
+				bigContent = Tokens[i].content;
+			}
+		}
+
+		string maxType = "Token Type = " + bigType;
+		string maxContent = "Token = " + bigContent;
+
+
+		while(tokenum != Tokens.size()){
+			string currentType = "Token Type = " + Tokens[tokenum].type;
+			string currentContent = "Token = " + Tokens[tokenum].content;
+			while(currentType.length() < maxType.length() + 5 || currentContent.length() < maxContent.length() ) {
+
+				if (currentType.length() < maxType.length() + 5) {
+					currentType = currentType + " ";
+				}
+				if (currentContent.length() < maxContent.length()){
+					currentContent = currentContent + " ";
+				}
+			}
+			
+			cout << left << currentType ;
+			cout << right<< currentContent ;
+			cout << setw(15) << "Usage = " << Tokens[tokenum].usage << endl;
+			tokenum++;
+		}
+		cout << endl;
 	}
+	return;
 }
 
 
