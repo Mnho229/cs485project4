@@ -88,10 +88,15 @@ void parser(string inputLine) {
 	}
 
 	if (tokenList[0].content == "defprompt") {
-		tokenList[0].usage = "anyText";
-		tokenList[1].usage = "prompt";
+		if(tokenList.size() > 2){
+			cout << "Error to many arguments......" << endl;
+		}
+		else{
+			tokenList[0].usage = "anyText";
+			tokenList[1].usage = "prompt";
 
-		variables["prompt"] = tokenList[1].content;
+			variables["prompt"] = tokenList[1].content;
+		}	
 	}
 
 	if (tokenList[0].content == "cd") {
@@ -100,6 +105,11 @@ void parser(string inputLine) {
 			cout << "Error. Please enter a path for cd command."<< endl;
 
 		}
+
+		if(tokenList.size() > 2){
+			cout << "Error. To many inputs for command. Please try again." << endl;
+		}
+
 		else{
 
 			if(tokenList[1].type == "word"){
@@ -111,6 +121,7 @@ void parser(string inputLine) {
 			}
 		}
 	}
+	
 	if (tokenList[0].content == "bye") {
 		exit(0);
 	}
