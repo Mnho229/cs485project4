@@ -130,6 +130,10 @@ void parser(string inputLine) {
 		else{
 
 			if(tokenList[1].type == "word"){
+				tokenList[0].usage = "change directory"
+				tokenList[1].usage = "anyText";
+
+				
 				chdir((tokenList[1].content).c_str());
 				return;
 			}
