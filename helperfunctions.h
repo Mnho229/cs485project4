@@ -1,7 +1,7 @@
 #ifndef HELPERFUNCTIONS_H_
 #define HELPERFUNCTIONS_H_
 
-#include "althelperfunctions.cpp"
+#include "helperfunctions.cpp"
 
 vector<token> scanner(string scanned);
 

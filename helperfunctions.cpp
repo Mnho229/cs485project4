@@ -1,94 +1,122 @@
 #include <iostream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
 struct token {
 	string type;
 	string content;
+	string usage;
 };
 
 
-static token scanner(string & scanned){
+inline vector<token> scanner(string scanned) {
+	vector<string> compiledStrings;
+	vector<token> compiledTokens;
 	token stuff;
+	while (!scanned.empty()) {
+		signed int checker = scanned.find(' ');
+		if (checker != -1) {
+			int spacemarker = scanned.find(" ");
 
-	int spacemarker = scanned.find(' ');
-	string sender = scanned.substr(0, spacemarker);
+			if (scanned.find('\"') == 0) {
 
-	if (scanned.find(' ') == 0) {
-		scanned.erase(0, 1);
-		stuff.type = "takeout";
-		stuff.content = "takeout";
-		return stuff;
-	}
+				int quotemarker = scanned.find('\"', 1);
+				int altspacemarker = scanned.find(' ', quotemarker);
+				if (altspacemarker != -1) {
+					compiledStrings.push_back( scanned.substr(0, altspacemarker) );
+					scanned.erase(0, altspacemarker + 1);
+					continue;
+				}
+				else {
+					compiledStrings.push_back(scanned);
+					scanned.erase(0, scanned.length());
+					break;
+				}
 
-	//string
-	if (scanned.find('\"') == 0) {
-		stuff.content = scanned.substr(1, scanned.find('\"', 1) - 1 );
-		stuff.type = "string";
+			}
 
-		scanned.erase(0, spacemarker);
-		return stuff;
-	}
+			string sender = scanned.substr(0, spacemarker);
 
-	if (sender == "defprompt" || sender == "cd" || sender == "listprocs" || 
-		sender == "bye" || sender == "run" || sender == "assignto" || sender == "<bg>") {
-		stuff.content = sender;
-		stuff.type = "keyword";
-		scanned.erase(0, spacemarker);
-		return stuff;
-	}
+			compiledStrings.push_back(sender);
+			scanned.erase(0, spacemarker + 1);
 
-	//variable
-	if (scanned.find('$') == 0 || scanned.substr(scanned.find_first_not_of(' ', sender.length()), 1) == "=")
-	{
-		if (scanned.find('$') == 0) {
-			stuff.content = sender.substr(1);
-			stuff.type = "variable";
-			scanned.erase(0, spacemarker);
-			return stuff;
 		}
 		else {
-			stuff.content = sender;
-			stuff.type = "variable";
-			scanned.erase(0, spacemarker);
-			return stuff;
+			compiledStrings.push_back(scanned);
+			scanned.erase(0, scanned.length());
+			break;
 		}
 	}
 
-	//metacharacter
-	if (scanned.find('#')== 0 ){
-		stuff.type = "metachar";
-		stuff.content = "#";
-		scanned.erase(0,spacemarker);
-		return stuff;
-	}
+	compiledStrings.push_back(" ");
 
-	if(scanned.find('=')==0){
-		stuff.content = "=";
-		stuff.type = "metachar";
-		scanned.erase(0,spacemarker);
-		return stuff;
-	}
-	cout << endl << "terminate?";
-	stuff.type = "word";
-	stuff.content = sender;
-	scanned.erase(0, spacemarker);
-	return stuff;
+	for (size_t i = 0; i < compiledStrings.size() ; i++) {
+		if (compiledStrings[i] == " ") {
+			compiledStrings.pop_back();
+			break;
+		}
+		//string
+		if (compiledStrings[i].find('\"') == 0) {
+			stuff.content = compiledStrings[i].substr(1, compiledStrings[i].find('\"', 1) - 1);
+			stuff.type = "string";
 
-	//keyword
-	/*
-	string keywords[7] = {"defprompt", "cd", "listprocs", "bye", "run", "assignto", "<bg>"};
-	for (int i = 0; i < 8; i++) {
-		if (sender == keywords[i]) {
-			cout << endl << "Sender: " << sender;
-			stuff.content = keywords[i];
+			compiledTokens.push_back(stuff);
+			continue;
+
+		}
+		//keyword
+		if (compiledStrings[i] == "defprompt" || compiledStrings[i] == "cd" || compiledStrings[i] == "listprocs" || 
+			compiledStrings[i] == "bye" || compiledStrings[i] == "run" || compiledStrings[i] == "assignto" || compiledStrings[i] == "<bg>") {
+			stuff.content = compiledStrings[i];
 			stuff.type = "keyword";
-			scanned.erase(0, spacemarker);
-			return stuff;
+			
+			compiledTokens.push_back(stuff);
+			continue;
 		}
+
+		//variable
+		if ( compiledStrings[i].find("$") == 0)
+		{
+			stuff.content = compiledStrings[i];
+			stuff.type = "variable";
+			compiledTokens.push_back(stuff);
+			continue;
+		}
+		if (i == 0 && compiledStrings[i+1] == "=" && compiledStrings[i] != "#") {
+				stuff.content = compiledStrings[i];
+				stuff.type = "variable";
+				compiledTokens.push_back(stuff);
+				continue;
+			}
+
+		// statement for metachar '#'
+		if (compiledStrings[i] == "#" ){
+
+			stuff.type = "metachar";
+			stuff.content = "#";
+			compiledTokens.push_back(stuff);
+			continue;
+		}
+
+		// statement for metachar '='
+		if(compiledStrings[i] == "="){
+
+			stuff.content = "=";
+			stuff.type = "metachar";
+			compiledTokens.push_back(stuff);
+			continue;
+		}
+		else {
+			stuff.type = "word";
+			stuff.content = compiledStrings[i];
+			compiledTokens.push_back(stuff);
+		}
+
 	}
-	*/
+
+	return compiledTokens;
 
 }
 

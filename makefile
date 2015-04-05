@@ -1,12 +1,12 @@
-OBJECTS = main.o althelperfunction.o
-HEADERS = main.h helperfunction.h
+OBJECTS = main.o helperfunctions.o
+HEADERS = helperfunctions.h
 
-proj4: $(OBJECTS)
-	g++ $^ -o proj4
+sish: $(OBJECTS)
+	g++ $^ -o sish
 
 %.o: %.cpp $(HEADERS)
 	g++ -c $< -o $@
 
 clean:
-	rm -f *.o proj4
+	rm -f *.o sish
 

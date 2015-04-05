@@ -5,6 +5,9 @@
 #include <vector>
 #include <unistd.h>
 #include <fcntl.h>
+#include <sys/types.h> 
+#include <sys/wait.h>
+#include <stdlib.h>
 #include "helperfunctions.h"
 #include <sstream>
 #include <fstream>
@@ -23,7 +26,7 @@ string ToString(size_t sz) {
 	return ss.str();
 }
 
-int main(int argc, int *argv) {
+int main(int argc, char *argv[]) {
 	variables["PATH"] = "/bin:/usr/bin";
 	variables["ShowTokens"] = "0";
 	variables["prompt"] = "sish >";
@@ -154,13 +157,13 @@ void parser(string inputLine) {
 	}
 
 	if (tokenList[0].content == "listprocs") {
+		
+		tokenList[0].usage = "listprocs";
+		organizer(tokenList, tokenDisplay);
+
 		if (tokenList.size() > 1) {
 			cout << "listprocs is meant to be run by itself. No arguments.";
 			return;
-		}
-		else {
-			tokenList[0].usage = "listprocs";
-			organizer(tokenList, tokenDisplay);
 		}
 
 		int status;
@@ -250,9 +253,7 @@ void program_center(vector<token> cmdline) {
 			 int pid_ps = fork();
 
 			 if (pid_ps > 0) {
-
 			 	wait(0);
-			 	
 			 }
 			 else {
 			 	execvp(args[0], args);
@@ -288,16 +289,16 @@ void program_center(vector<token> cmdline) {
 			 	execvp(args[0], args);
 			 }
 		fstream tempFile;
+		string temp;
 		string definition;
 		tempFile.open("temp.txt");
 
-		getline(tempFile, definition);
+		while(getline(tempFile, temp)) {
+			definition = definition + temp + "\n";
+		}
 		variables[cmdline[1].content] = definition;
 		tempFile.close();
 	}
-
-
-
 }
 
 void organizer(vector<token>Tokens, bool flag){
@@ -335,7 +336,7 @@ void organizer(vector<token>Tokens, bool flag){
 					currentContent = currentContent + " ";
 				}
 			}
-			
+			cout << endl;
 			cout << left << currentType ;
 			cout << right<< currentContent ;
 			cout << setw(15) << "Usage = " << Tokens[tokenum].usage << endl;
