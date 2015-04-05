@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include "helperfunctions.h"
+#include <sstream>
 #include <fstream>
 
 using namespace std;
@@ -13,14 +14,18 @@ using namespace std;
 void parser(string inputLine);
 void program_center(vector<token> cmdline);
 map<string, string> variables;
+vector<string> processList;
 
+string ToString(size_t sz) {
+	stringstream ss;
+	ss << sz;
+	return ss.str();
+}
 
-int main() {
+int main(int argc, int *argv) {
 	variables["PATH"] = "/bin:/usr/bin";
 	variables["ShowTokens"] = "0";
 	variables["prompt"] = "sish >";
-
-	vector<string> processList;
 
 	string input;
 	
@@ -39,7 +44,7 @@ void parser(string inputLine) {
 	vector<token> tokenList = scanner(inputLine);
 
 	for (size_t i = 1; i < tokenList.size() ; i++) {
-		cout << endl << "Current token: " << tokenList[i].content;
+		
 		if ((tokenList[i].content).find('$') == 0 && tokenList[i].type == "variable") {
 
 			map<string, string>::iterator it;
@@ -48,7 +53,6 @@ void parser(string inputLine) {
 			
 			for (it = variables.begin(); it != variables.end(); it++) {
 				if (it->first == temp) {
-					cout << endl << it->second;
 					tokenList[i].content = it->second;
 					tokenList[i].type = "word";
 				}
@@ -74,6 +78,15 @@ void parser(string inputLine) {
 	}
 
 	if (tokenList[0].type == "variable" && tokenList[1].content == "=") {
+		if (tokenList > 3) {
+			cout << endl << "Error: too many arguments";
+			return;
+		}
+		if (tokenList = 2) {
+			cout << endl << "Error: Nothing to set the variable equal to:";
+			return;
+		}
+
 		tokenList[0].usage = "variable";
 		tokenList[1].usage = "assignment";
 		tokenList[2].usage = "variableDef";
@@ -92,12 +105,14 @@ void parser(string inputLine) {
 	if (tokenList[0].content == "defprompt") {
 		if(tokenList.size() > 2){
 			cout << "Error to many arguments......" << endl;
+			return;
 		}
 		else{
 			tokenList[0].usage = "anyText";
 			tokenList[1].usage = "prompt";
 
 			variables["prompt"] = tokenList[1].content;
+			return;
 		}	
 	}
 
@@ -105,33 +120,43 @@ void parser(string inputLine) {
 		if(tokenList.size()==1){
 
 			cout << "Error. Please enter a path for cd command."<< endl;
-
+			return;
 		}
 
 		if(tokenList.size() > 2){
 			cout << "Error. To many inputs for command. Please try again." << endl;
+			return;
 		}
-
 		else{
 
 			if(tokenList[1].type == "word"){
 				chdir((tokenList[1].content).c_str());
+				return;
 			}
 
 			else{
 				cout << "please enter word for cd command." << endl;
+				return;
 			}
 		}
 	}
 
-	if (tokenlist[0].content == "listprocs") {
+	if (tokenList[0].content == "listprocs") {
+		if (tokenList.size() > 1) {
+			cout << "listprocs is meant to be run by itself. No arguments.";
+			return;
+		}
+		else {
+			tokenList[0].content = "listprocs";
+		}
+
 		int status;
 		pid_t pid = waitpid(-1, &status, WNOHANG);
 		if (pid > 0) {
 			processList.pop_back();
 		}
-		for {size_t i = 0; i < listprocs.size(); i++} {
-			cout << endl << i << ". " << listprocs[i];
+		for (size_t i = 0; i < processList.size(); i++) {
+			cout << endl << i << ". " << processList[i];
 		}
 	}
 	
@@ -142,12 +167,32 @@ void parser(string inputLine) {
 	//Program-control commands
 	if (tokenList[0].content == "run" || tokenList[0].content == "assignto") {
 
-			program_center(tokenList, processList);
+		if (tokenList[0].content == "run") {
+			tokenList[0].usage == "run";
+			tokenList[1].usage == "cmd";
+
+			if (tokenList.size() > 2) {
+				for (size_t i = 2; i < tokenList.size() ; i++) {
+					tokenList[i].usage == "Parameter " + ToString(i - 1);
+				}
+			}
+		}
+		if (tokenList[0].content == "assignto") {
+			tokenList[0].usage == "assignto";
+			tokenList[1].usage == "variable";
+			tokenList[2].usage == "cmd";
+			if (tokenList.size() > 3) {
+				for (size_t i = 3; i < tokenList.size() ; i++) {
+					tokenList[i].usage == "Parameter " + ToString(i - 2);
+				}
+			}
+		}
+		program_center(tokenList);
 	}
 
 }
 
-void program_center(vector<token> cmdline, vector<string> plist) {
+void program_center(vector<token> cmdline) {
 
 	if (cmdline[0].content == "run") {
 		
@@ -165,7 +210,7 @@ void program_center(vector<token> cmdline, vector<string> plist) {
 
 			 string concat1 = cmdline[1].content;
 
-			 processList.push_back(concat);
+			 processList.push_back(concat1);
 			 int pid_ps = fork();
 
 			 if (pid_ps > 0) {
